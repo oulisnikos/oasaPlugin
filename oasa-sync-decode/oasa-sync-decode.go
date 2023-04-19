@@ -54,8 +54,8 @@ func ReadRecCharByCar(recordStr string) []string {
 	return result
 }
 
-func ReadTextCharByChar(inputStr string, mapToDbRec func(dataArray []string) interface{}) []interface{} {
-	var resultData []interface{}
+func ReadTextCharByChar(inputStr string, mapToDbRec func(dataArray []string) map[string]interface{}) []map[string]interface{} {
+	var resultData []map[string]interface{}
 	r := bufio.NewReader(strings.NewReader(inputStr))
 	//var i = 0
 	f, err := os.Create("Stop_data.txt")
