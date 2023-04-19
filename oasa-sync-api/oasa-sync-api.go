@@ -10,7 +10,7 @@ import (
 	oasa_sync_web "github.com/oulisnikos/oasaPlugin/oasa-sync-web"
 )
 
-func getLines() oasa_sync_model.LineList {
+func GetLines() oasa_sync_model.LineList {
 	var result oasa_sync_model.LineList
 
 	response, err := oasa_sync_web.GetRequest("http://telematics.oasa.gr/api/?act=getLines", map[string]string{
