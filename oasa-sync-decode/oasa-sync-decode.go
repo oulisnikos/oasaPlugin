@@ -51,6 +51,8 @@ func ReadRecCharByCar(recordStr string) []string {
 					result = append(result, prop)
 					prop = ""
 					//continue
+				} else {
+					addCharacter = true
 				}
 			}
 			if addCharacter {
