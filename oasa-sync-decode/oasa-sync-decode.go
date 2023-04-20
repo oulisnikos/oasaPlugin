@@ -30,7 +30,14 @@ func ReadRecCharByCar(recordStr string) []string {
 		} else {
 			charecter := string(c)
 
-			if charecter == string(OpenParenthesis) {
+			if charecter == string(DoubleQuotes) && strStartStop {
+				strStartStop = false
+				continue
+			} else if charecter == string(DoubleQuotes) && !strStartStop {
+				strStartStop = true
+				prop = ""
+				continue
+			} else if charecter == string(OpenParenthesis) {
 				continue
 			} else if charecter == string(CloseParenthesis) {
 				result = append(result, prop)
@@ -39,15 +46,7 @@ func ReadRecCharByCar(recordStr string) []string {
 				result = append(result, prop)
 				prop = ""
 				continue
-			} else if charecter == string(DoubleQuotes) && strStartStop {
-				strStartStop = false
-				continue
-			} else if charecter == string(DoubleQuotes) && !strStartStop {
-				strStartStop = true
-				prop = ""
-				continue
 			}
-
 			prop = prop + charecter
 		}
 	}
