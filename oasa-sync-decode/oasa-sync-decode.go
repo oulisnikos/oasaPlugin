@@ -38,7 +38,7 @@ func ReadRecCharByCar(recordStr string) []string {
 
 			if strStartStop && charecter != string(DoubleQuotes) {
 				addCharacter = true
-			} else {
+			} else if !strStartStop {
 				if charecter == string(Space) {
 
 				} else if charecter == string(OpenParenthesis) {
