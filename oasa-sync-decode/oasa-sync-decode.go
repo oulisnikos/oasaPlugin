@@ -19,6 +19,7 @@ func ReadRecCharByCar(recordStr string) []string {
 	r := bufio.NewReader(strings.NewReader(recordStr))
 
 	var strStartStop bool = false
+	var addCharacter = false
 	var prop = ""
 	for {
 		if c, _, err := r.ReadRune(); err != nil {
@@ -30,24 +31,33 @@ func ReadRecCharByCar(recordStr string) []string {
 		} else {
 			charecter := string(c)
 
-			if charecter == string(DoubleQuotes) && strStartStop {
-				strStartStop = false
-				continue
-			} else if charecter == string(DoubleQuotes) && !strStartStop {
-				strStartStop = true
-				prop = ""
-				continue
-			} else if charecter == string(OpenParenthesis) {
-				continue
-			} else if charecter == string(CloseParenthesis) {
-				result = append(result, prop)
-				continue
-			} else if charecter == string(ComaCharcter) && !strStartStop {
-				result = append(result, prop)
-				prop = ""
-				continue
+			if strStartStop {
+				addCharacter = true
+			} else {
+				if charecter == string(DoubleQuotes) {
+					strStartStop = !strStartStop
+					//continue
+					//}
+					//else if charecter == string(DoubleQuotes) && !strStartStop {
+					//	strStartStop = true
+					//	prop = ""
+					//	continue
+				} else if charecter == string(OpenParenthesis) {
+					//continue
+				} else if charecter == string(CloseParenthesis) {
+					result = append(result, prop)
+					//continue
+				} else if charecter == string(ComaCharcter) {
+					result = append(result, prop)
+					prop = ""
+					//continue
+				}
 			}
-			prop = prop + charecter
+			if addCharacter {
+				addCharacter = false
+				prop = prop + charecter
+			}
+
 		}
 	}
 	return result
