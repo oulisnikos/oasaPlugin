@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+const Space = 32
 const DoubleQuotes = 34
 const ComaCharcter = 44
 const OpenParenthesis = 40
@@ -42,6 +43,8 @@ func ReadRecCharByCar(recordStr string) []string {
 					//	strStartStop = true
 					//	prop = ""
 					//	continue
+				} else if charecter == string(Space) {
+
 				} else if charecter == string(OpenParenthesis) {
 					//continue
 				} else if charecter == string(CloseParenthesis) {
@@ -55,6 +58,7 @@ func ReadRecCharByCar(recordStr string) []string {
 					addCharacter = true
 				}
 			}
+
 			if addCharacter {
 				addCharacter = false
 				prop = prop + charecter
