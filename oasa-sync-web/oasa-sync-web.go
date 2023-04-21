@@ -1,12 +1,14 @@
 package oasa_sync_web
 
 import (
+	"bytes"
+	"compress/gzip"
 	"fmt"
 	"net/http"
 	"time"
 )
 
-func GetRequest(url string, headers map[string]string) (*http.Response, error) {
+func getRequest(url string, headers map[string]string) (*http.Response, error) {
 	client := &http.Client{
 		Timeout: time.Second * 10,
 	}
@@ -30,6 +32,27 @@ func GetRequest(url string, headers map[string]string) (*http.Response, error) {
 
 	fmt.Printf("client: got response!\n")
 	fmt.Printf("client: status code: %d\n", response.StatusCode)
-
 	return response, nil
+}
+
+func MakeRequest(action string) (string, error) {
+	response, err := getRequest("http://telematics.oasa.gr/api/?act="+action, map[string]string{
+		"Accept-Encoding": "gzip, deflate"})
+	if err != nil {
+		return "", err
+	}
+
+	reader, err := gzip.NewReader(response.Body)
+
+	if err != nil {
+		fmt.Printf(err.Error())
+		return "", err
+	} else {
+		defer reader.Close()
+
+		buf := new(bytes.Buffer)
+		buf.ReadFrom(reader)
+		responseStr := buf.String()
+		return responseStr, nil
+	}
 }

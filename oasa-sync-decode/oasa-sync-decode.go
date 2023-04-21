@@ -69,7 +69,7 @@ func ReadTextCharByChar(inputStr string, mapToDbRec func(dataArray []string) map
 	var resultData []map[string]interface{}
 	r := bufio.NewReader(strings.NewReader(inputStr))
 	//var i = 0
-	f, err := os.Create("Stop_data.txt")
+	f, err := os.Create("Route_data.txt")
 
 	if err != nil {
 		fmt.Printf("Error in Open File [%s]", err.Error())
