@@ -3,27 +3,26 @@ package oasa_sync_api
 import (
 	"bytes"
 	"compress/gzip"
-	"encoding/json"
 	"fmt"
 	"github.com/oulisnikos/oasaPlugin/oasa-sync-decode"
 	"github.com/oulisnikos/oasaPlugin/oasa-sync-utils"
 	"github.com/oulisnikos/oasaPlugin/oasa-sync-web"
 )
 
-func GetLines() (string, error) {
+func GetLines() ([]map[string]interface{}, error) {
 	var result []map[string]interface{}
 
 	response, err := oasa_sync_web.GetRequest("http://telematics.oasa.gr/api/?act=getLines", map[string]string{
 		"Accept-Encoding": "gzip, deflate"})
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	reader, err := gzip.NewReader(response.Body)
 
 	if err != nil {
 		fmt.Printf(err.Error())
-		return "", err
+		return nil, err
 	} else {
 		defer reader.Close()
 
@@ -59,9 +58,9 @@ func GetLines() (string, error) {
 		})
 	}
 
-	jsonStr, error := json.Marshal(result)
-	if error != nil {
-		return "", err
-	}
-	return string(jsonStr), nil
+	//jsonStr, error := json.Marshal(result)
+	//if error != nil {
+	//	return "", err
+	//}
+	return result, nil
 }
