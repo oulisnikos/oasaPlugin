@@ -20,6 +20,11 @@ func GetData(path string) ([]map[string]interface{}, error) {
 	defer file.Close()
 	result = oasa_sync_decode.ReadTextCharByChar(responseStr, nil, file)
 
+	if len(result) == 0 {
+		result = append(result, map[string]interface{}{
+			"response": responseStr,
+		})
+	}
 	return result, nil
 }
 
