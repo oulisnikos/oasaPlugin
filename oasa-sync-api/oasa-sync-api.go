@@ -111,20 +111,20 @@ func GetStops() ([]map[string]interface{}, error) {
 		var resultRec map[string]interface{}
 		if len(dataStr) == 13 {
 			resultRec = map[string]interface{}{
-				"StopCode":       oasa_sync_utils.StrToInt64(dataStr[0]),
-				"StopID":         dataStr[1],
-				"StopDescr":      dataStr[2],
-				"StopDescrEng":   dataStr[3],
-				"StopStreet":     dataStr[4],
-				"StopStreetEng":  dataStr[5],
-				"StopHeading":    dataStr[6],
-				"StopLat":        oasa_sync_utils.StrToFloat(dataStr[7]),
-				"StopLng":        oasa_sync_utils.StrToFloat(dataStr[8]),
-				"RouteStopOrder": oasa_sync_utils.StrToInt(dataStr[9]),
-				"StopType":       dataStr[10],
-				"StopAmea":       dataStr[11],
-				"DescrStr":       dataStr[12],
-				//"DescrStrEng":    dataStr[13],
+				"StopCode":      oasa_sync_utils.StrToInt64(dataStr[0]),
+				"StopID":        dataStr[1],
+				"StopDescr":     dataStr[2],
+				"StopDescrEng":  dataStr[3],
+				"StopStreet":    dataStr[4],
+				"StopStreetEng": dataStr[5],
+				"StopHeading":   dataStr[6],
+				"StopLat":       oasa_sync_utils.StrToFloat(dataStr[7]),
+				"StopLng":       oasa_sync_utils.StrToFloat(dataStr[8]),
+				//"RouteStopOrder": oasa_sync_utils.StrToInt(dataStr[9]),
+				"StopType":    dataStr[9],
+				"StopAmea":    dataStr[10],
+				"DescrStr":    dataStr[11],
+				"DescrStrEng": dataStr[12],
 			}
 
 		}
