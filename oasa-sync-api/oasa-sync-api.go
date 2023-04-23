@@ -4,6 +4,7 @@ import (
 	"github.com/oulisnikos/oasaPlugin/oasa-sync-decode"
 	"github.com/oulisnikos/oasaPlugin/oasa-sync-utils"
 	"github.com/oulisnikos/oasaPlugin/oasa-sync-web"
+	"os"
 )
 
 func GetLines() ([]map[string]interface{}, error) {
@@ -13,6 +14,11 @@ func GetLines() ([]map[string]interface{}, error) {
 	if error != nil {
 		return nil, error
 	}
+	f, err := os.Create("/oasa-telematics/lines_data.txt")
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
 	result = oasa_sync_decode.ReadTextCharByChar(responseStr, func(dataStr []string) map[string]interface{} {
 		var resultRec map[string]interface{}
 		if len(dataStr) == 18 {
@@ -39,7 +45,7 @@ func GetLines() ([]map[string]interface{}, error) {
 
 		}
 		return resultRec
-	})
+	}, f)
 
 	//jsonStr, error := json.Marshal(result)
 	//if error != nil {
@@ -58,33 +64,26 @@ func GetRoutes() ([]map[string]interface{}, error) {
 	result = append(result, map[string]interface{}{
 		"response": responseStr,
 	})
-	//result = oasa_sync_decode.ReadTextCharByChar(responseStr, func(dataStr []string) map[string]interface{} {
-	//	var resultRec map[string]interface{}
-	//	if len(dataStr) == 18 {
-	//		resultRec = map[string]interface{}{
-	//			"ID":       oasa_sync_utils.StrToInt64(dataStr[0]),
-	//			"CODE":     dataStr[1],
-	//			"DESCR":    dataStr[2],
-	//			"DESCRENG": dataStr[3],
-	//			"NUM1":     oasa_sync_utils.StrToInt(dataStr[4]),
-	//			"NUM2":     oasa_sync_utils.StrToFloat(dataStr[5]),
-	//			"NUM3":     oasa_sync_utils.StrToInt(dataStr[6]),
-	//			"NUM4":     oasa_sync_utils.StrToFloat(dataStr[7]),
-	//			"NUM5":     oasa_sync_utils.StrToInt(dataStr[8]),
-	//			"NUM6":     oasa_sync_utils.StrToFloat(dataStr[9]),
-	//			"NUM7":     oasa_sync_utils.StrToInt(dataStr[10]),
-	//			"NUM8":     oasa_sync_utils.StrToFloat(dataStr[11]),
-	//			"NUM9":     oasa_sync_utils.StrToInt(dataStr[12]),
-	//			"NUM10":    oasa_sync_utils.StrToFloat(dataStr[13]),
-	//			"NUM11":    oasa_sync_utils.StrToInt(dataStr[14]),
-	//			"NUM12":    oasa_sync_utils.StrToFloat(dataStr[15]),
-	//			"NUM13":    oasa_sync_utils.StrToInt(dataStr[16]),
-	//			"NUM14":    oasa_sync_utils.StrToFloat(dataStr[17]),
-	//		}
-	//
-	//	}
-	//	return resultRec
-	//})
+	f, err := os.Create("/oasa-telematics/routes_data.txt")
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+	result = oasa_sync_decode.ReadTextCharByChar(responseStr, func(dataStr []string) map[string]interface{} {
+		var resultRec map[string]interface{}
+		if len(dataStr) == 18 {
+			resultRec = map[string]interface{}{
+				"RouteCode":     oasa_sync_utils.StrToInt64(dataStr[0]),
+				"LineCode":      oasa_sync_utils.StrToInt64(dataStr[1]),
+				"RouteDescr":    dataStr[2],
+				"RouteDescrEng": dataStr[3],
+				"RouteType":     oasa_sync_utils.StrToInt(dataStr[4]),
+				"RouteDistance": oasa_sync_utils.StrToFloat(dataStr[5]),
+			}
+
+		}
+		return resultRec
+	}, f)
 	//
 	////jsonStr, error := json.Marshal(result)
 	//if error != nil {
@@ -100,36 +99,41 @@ func GetStops() ([]map[string]interface{}, error) {
 	if error != nil {
 		return nil, error
 	}
+	f, err := os.Create("/oasa-telematics/stops-data.txt")
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
 	result = append(result, map[string]interface{}{
 		"response": responseStr,
 	})
-	//result = oasa_sync_decode.ReadTextCharByChar(responseStr, func(dataStr []string) map[string]interface{} {
-	//	var resultRec map[string]interface{}
-	//	if len(dataStr) == 18 {
-	//		resultRec = map[string]interface{}{
-	//			"ID":       oasa_sync_utils.StrToInt64(dataStr[0]),
-	//			"CODE":     dataStr[1],
-	//			"DESCR":    dataStr[2],
-	//			"DESCRENG": dataStr[3],
-	//			"NUM1":     oasa_sync_utils.StrToInt(dataStr[4]),
-	//			"NUM2":     oasa_sync_utils.StrToFloat(dataStr[5]),
-	//			"NUM3":     oasa_sync_utils.StrToInt(dataStr[6]),
-	//			"NUM4":     oasa_sync_utils.StrToFloat(dataStr[7]),
-	//			"NUM5":     oasa_sync_utils.StrToInt(dataStr[8]),
-	//			"NUM6":     oasa_sync_utils.StrToFloat(dataStr[9]),
-	//			"NUM7":     oasa_sync_utils.StrToInt(dataStr[10]),
-	//			"NUM8":     oasa_sync_utils.StrToFloat(dataStr[11]),
-	//			"NUM9":     oasa_sync_utils.StrToInt(dataStr[12]),
-	//			"NUM10":    oasa_sync_utils.StrToFloat(dataStr[13]),
-	//			"NUM11":    oasa_sync_utils.StrToInt(dataStr[14]),
-	//			"NUM12":    oasa_sync_utils.StrToFloat(dataStr[15]),
-	//			"NUM13":    oasa_sync_utils.StrToInt(dataStr[16]),
-	//			"NUM14":    oasa_sync_utils.StrToFloat(dataStr[17]),
-	//		}
-	//
-	//	}
-	//	return resultRec
-	//})
+	result = oasa_sync_decode.ReadTextCharByChar(responseStr, func(dataStr []string) map[string]interface{} {
+		var resultRec map[string]interface{}
+		if len(dataStr) == 18 {
+			resultRec = map[string]interface{}{
+				"ID":       oasa_sync_utils.StrToInt64(dataStr[0]),
+				"CODE":     dataStr[1],
+				"DESCR":    dataStr[2],
+				"DESCRENG": dataStr[3],
+				"NUM1":     oasa_sync_utils.StrToInt(dataStr[4]),
+				"NUM2":     oasa_sync_utils.StrToFloat(dataStr[5]),
+				"NUM3":     oasa_sync_utils.StrToInt(dataStr[6]),
+				"NUM4":     oasa_sync_utils.StrToFloat(dataStr[7]),
+				"NUM5":     oasa_sync_utils.StrToInt(dataStr[8]),
+				"NUM6":     oasa_sync_utils.StrToFloat(dataStr[9]),
+				"NUM7":     oasa_sync_utils.StrToInt(dataStr[10]),
+				"NUM8":     oasa_sync_utils.StrToFloat(dataStr[11]),
+				"NUM9":     oasa_sync_utils.StrToInt(dataStr[12]),
+				"NUM10":    oasa_sync_utils.StrToFloat(dataStr[13]),
+				"NUM11":    oasa_sync_utils.StrToInt(dataStr[14]),
+				"NUM12":    oasa_sync_utils.StrToFloat(dataStr[15]),
+				"NUM13":    oasa_sync_utils.StrToInt(dataStr[16]),
+				"NUM14":    oasa_sync_utils.StrToFloat(dataStr[17]),
+			}
+
+		}
+		return resultRec
+	}, f)
 	//
 	////jsonStr, error := json.Marshal(result)
 	//if error != nil {

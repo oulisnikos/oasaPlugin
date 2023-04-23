@@ -2,7 +2,6 @@ package oasa_sync_decode
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -65,17 +64,17 @@ func ReadRecCharByCar(recordStr string) []string {
 	return result
 }
 
-func ReadTextCharByChar(inputStr string, mapToDbRec func(dataArray []string) map[string]interface{}) []map[string]interface{} {
+func ReadTextCharByChar(inputStr string, mapToDbRec func(dataArray []string) map[string]interface{}, file *os.File) []map[string]interface{} {
 	var resultData []map[string]interface{}
 	r := bufio.NewReader(strings.NewReader(inputStr))
 	//var i = 0
-	f, err := os.Create("Route_data.txt")
+	//f, err := os.Create("/oasa-telematics/data.txt")
 
-	if err != nil {
-		fmt.Printf("Error in Open File [%s]", err.Error())
-	}
+	//if err != nil {
+	//	fmt.Printf("Error in Open File [%s]", err.Error())
+	//}
 
-	defer f.Close()
+	//defer f.Close()
 	var recStartStop = false
 	var quotedStr = false
 	var recStr = ""
@@ -101,7 +100,7 @@ func ReadTextCharByChar(inputStr string, mapToDbRec func(dataArray []string) map
 			} else if charecter == string(CloseParenthesis) && !quotedStr {
 				recStartStop = false
 				recStr = recStr + charecter
-				f.WriteString(recStr + "\n")
+				file.WriteString(recStr + "\n")
 				propArray := ReadRecCharByCar(recStr)
 				resultData = append(resultData, mapToDbRec(propArray))
 				//fmt.Print("These props of rec ", propArray, " \n")
