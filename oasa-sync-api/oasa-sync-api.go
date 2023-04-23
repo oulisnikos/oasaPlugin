@@ -119,7 +119,7 @@ func GetStops() ([]map[string]interface{}, error) {
 				"StopStreetEng":  dataStr[5],
 				"StopHeading":    dataStr[6],
 				"StopLat":        oasa_sync_utils.StrToFloat(dataStr[7]),
-				"StopLng":        oasa_sync_utils.StrToInt(dataStr[8]),
+				"StopLng":        oasa_sync_utils.StrToFloat(dataStr[8]),
 				"RouteStopOrder": oasa_sync_utils.StrToInt(dataStr[9]),
 				"StopType":       oasa_sync_utils.StrToInt(dataStr[10]),
 				"StopAmea":       oasa_sync_utils.StrToInt(dataStr[11]),
