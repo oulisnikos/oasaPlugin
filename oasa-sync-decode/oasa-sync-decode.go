@@ -102,7 +102,9 @@ func ReadTextCharByChar(inputStr string, mapToDbRec func(dataArray []string) map
 				recStr = recStr + charecter
 				file.WriteString(recStr + "\n")
 				propArray := ReadRecCharByCar(recStr)
-				resultData = append(resultData, mapToDbRec(propArray))
+				if mapToDbRec != nil {
+					resultData = append(resultData, mapToDbRec(propArray))
+				}
 				//fmt.Print("These props of rec ", propArray, " \n")
 				recStr = ""
 				i++

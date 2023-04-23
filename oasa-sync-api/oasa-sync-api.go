@@ -7,6 +7,22 @@ import (
 	"os"
 )
 
+func GetData(path string) ([]map[string]interface{}, error) {
+	var result []map[string]interface{}
+	responseStr, error := oasa_sync_web.MakeRequest(path)
+	if error != nil {
+		return nil, error
+	}
+	file, error := os.Create("/oasa-telematics/" + path + "_data.txt")
+	if error != nil {
+		return nil, error
+	}
+	defer file.Close()
+	result = oasa_sync_decode.ReadTextCharByChar(responseStr, nil, file)
+
+	return result, nil
+}
+
 func GetLines() ([]map[string]interface{}, error) {
 	var result []map[string]interface{}
 
