@@ -109,7 +109,7 @@ func GetStops() ([]map[string]interface{}, error) {
 	})
 	result = oasa_sync_decode.ReadTextCharByChar(responseStr, func(dataStr []string) map[string]interface{} {
 		var resultRec map[string]interface{}
-		if len(dataStr) == 13 {
+		if len(dataStr) == 14 {
 			resultRec = map[string]interface{}{
 				"StopCode":       oasa_sync_utils.StrToInt64(dataStr[0]),
 				"StopID":         dataStr[1],
