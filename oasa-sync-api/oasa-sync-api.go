@@ -71,7 +71,7 @@ func GetRoutes() ([]map[string]interface{}, error) {
 	defer f.Close()
 	result = oasa_sync_decode.ReadTextCharByChar(responseStr, func(dataStr []string) map[string]interface{} {
 		var resultRec map[string]interface{}
-		if len(dataStr) == 18 {
+		if len(dataStr) == 6 {
 			resultRec = map[string]interface{}{
 				"RouteCode":     oasa_sync_utils.StrToInt64(dataStr[0]),
 				"LineCode":      oasa_sync_utils.StrToInt64(dataStr[1]),
