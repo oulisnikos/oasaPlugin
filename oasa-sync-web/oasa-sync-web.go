@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+const OASA_SERVER = "http://telematics.oasa.gr/api/"
+
 func getRequest(url string, headers map[string]string) (*http.Response, error) {
 	client := &http.Client{
 		Timeout: time.Second * 10,
@@ -36,7 +38,7 @@ func getRequest(url string, headers map[string]string) (*http.Response, error) {
 }
 
 func MakeRequest(action string) (string, error) {
-	response, err := getRequest("http://telematics.oasa.gr/api/?act="+action, map[string]string{
+	response, err := getRequest(OASA_SERVER+"?act="+action, map[string]string{
 		"Accept-Encoding": "gzip, deflate"})
 	if err != nil {
 		return "", err
