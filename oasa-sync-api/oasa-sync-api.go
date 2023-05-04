@@ -7,13 +7,15 @@ import (
 	"os"
 )
 
+const FILE_PATH = "oasa-telematics/"
+
 func GetData(path string) ([]map[string]interface{}, error) {
 	var result []map[string]interface{}
 	responseStr, error := oasa_sync_web.MakeRequest(path)
 	if error != nil {
 		return nil, error
 	}
-	file, error := os.Create("/oasa-telematics/" + path + "_data.txt")
+	file, error := os.Create(FILE_PATH + path + "_data.txt")
 	if error != nil {
 		return nil, error
 	}
@@ -35,7 +37,7 @@ func GetLines() ([]map[string]interface{}, error) {
 	if error != nil {
 		return nil, error
 	}
-	f, err := os.Create("/oasa-telematics/lines_data.txt")
+	f, err := os.Create(FILE_PATH + "lines_data.txt")
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +87,7 @@ func GetRoutes() ([]map[string]interface{}, error) {
 	result = append(result, map[string]interface{}{
 		"response": responseStr,
 	})
-	f, err := os.Create("/oasa-telematics/routes_data.txt")
+	f, err := os.Create(FILE_PATH + "routes_data.txt")
 	if err != nil {
 		return nil, err
 	}
@@ -120,7 +122,7 @@ func GetStops() ([]map[string]interface{}, error) {
 	if error != nil {
 		return nil, error
 	}
-	f, err := os.Create("/oasa-telematics/stops-data.txt")
+	f, err := os.Create(FILE_PATH + "stops-data.txt")
 	if err != nil {
 		return nil, err
 	}
