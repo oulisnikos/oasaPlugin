@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-const FILE_PATH = "oasa-telematics/"
+const FILE_PATH = "C:\\oasa-telematics\"
 
 func GetData(path string) ([]map[string]interface{}, error) {
 	var result []map[string]interface{}
