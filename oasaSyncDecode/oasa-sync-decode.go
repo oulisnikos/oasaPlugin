@@ -1,4 +1,4 @@
-package oasa_sync_decode
+package oasaSyncDecode
 
 import (
 	"bufio"
